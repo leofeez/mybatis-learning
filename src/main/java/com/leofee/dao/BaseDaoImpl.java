@@ -46,7 +46,7 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
         }
 
         if (records.size() > 1) {
-            throw new BaseException(param.getClass().getName() + "记录重复.");
+            throw new BaseException(param.getClass().getName() + " 记录重复.");
         }
 
         return records.get(0);

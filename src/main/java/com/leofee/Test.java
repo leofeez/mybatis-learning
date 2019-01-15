@@ -19,6 +19,8 @@ public class Test {
         param.setId(5);
         User user = userDao.loadEntity(param);
 
+        User id = userDao.findByPrimaryKey(5);
+
         System.out.println(user == null ? "no result":user.toString());
 
     }
