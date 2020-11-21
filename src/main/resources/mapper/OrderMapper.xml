@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis.mapper.OrderMapper">
+    <select id="query" resultType="com.pojo.Order" parameterType="com.pojo.Order">
+        select * from `learning`.order o
+
+        <where>
+            <if test="orderId != null and orderId !=''">
+                o.order_id = #{orderId, jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByPrimaryKey" resultType="com.pojo.Order" parameterType="integer">
+        select *
+        from learning.`order` u
+        where order_id = #{orderId, jdbcType=INTEGER}
+    </select>
+</mapper>

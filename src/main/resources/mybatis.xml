@@ -3,25 +3,25 @@
 
 <configuration>
 
-    <!--&lt;!&ndash; 引入db配置 &ndash;&gt;-->
+    <!-- 引入db配置 &ndash;&gt;-->
     <properties resource="db.properties"/>
 
-    <!--<environments default="development">-->
-        <!--<environment id="development">-->
-            <!--<transactionManager type="JDBC" />-->
-            <!--&lt;!&ndash; 配置数据库连接信息 &ndash;&gt;-->
-            <!--<dataSource type="POOLED">-->
-                <!--<property name="driver" value="${driver}" />-->
-                <!--<property name="url" value="${url}" />-->
-                <!--<property name="username" value="${username}" />-->
-                <!--<property name="password" value="${password}" />-->
-            <!--</dataSource>-->
-        <!--</environment>-->
-    <!--</environments>-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <!-- 配置数据库连接信息 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}" />
+                <property name="url" value="${url}" />
+                <property name="username" value="${username}" />
+                <property name="password" value="${password}" />
+            </dataSource>
+        </environment>
+    </environments>
 
     <mappers>
 
-        <mapper resource="com/leofee/mapper/User.xml"/>
+        <mapper resource="mapper/OrderMapper.xml"/>
 
     </mappers>
 </configuration>

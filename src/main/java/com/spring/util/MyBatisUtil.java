@@ -1,4 +1,4 @@
-package com.leofee.util;
+package com.spring.util;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author leofee
- * @Date: 2019/1/10
+ * @date 2019/1/10
  */
 @Component
 public class MyBatisUtil {

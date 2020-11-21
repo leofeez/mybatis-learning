@@ -1,4 +1,6 @@
-package com.leofee.dao;
+package com.spring.dao;
+
+import com.exception.BaseException;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public interface BaseDao<T> {
      * 逻辑主键查询
      *
      * @param param 查询参数
-     * @exception  com.leofee.exception.BaseException 如果查询到多条
+     * @exception BaseException 如果查询到多条
      * @return record
      */
     T loadEntity(T param);

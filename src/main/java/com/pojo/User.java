@@ -1,4 +1,4 @@
-package com.leofee.pojo;
+package com.pojo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -6,7 +6,7 @@ import lombok.ToString;
 
 /**
  * @author leofee
- * @Date: 2019/1/9
+ * @date 2019/1/9
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -1,7 +1,7 @@
-package com.leofee;
+package com;
 
-import com.leofee.dao.UserDao;
-import com.leofee.pojo.User;
+import com.spring.dao.UserDao;
+import com.pojo.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -1,6 +1,6 @@
-package com.leofee.dao;
+package com.spring.dao;
 
-import com.leofee.pojo.User;
+import com.pojo.User;
 import org.springframework.stereotype.Component;
 
 /**

@@ -1,6 +1,6 @@
-package com.leofee.dao;
+package com.spring.dao;
 
-import com.leofee.exception.BaseException;
+import com.exception.BaseException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @author leofee
- * @Date: 2019/1/11
+ * @date 2019/1/11
  */
 @Component
 public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {

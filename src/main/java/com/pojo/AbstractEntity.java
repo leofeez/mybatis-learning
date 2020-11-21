@@ -1,4 +1,4 @@
-package com.leofee.pojo;
+package com.pojo;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @author leofee
- * @Date: 2019/1/15
+ * @date 2019/1/15
  */
 @Data
 public class AbstractEntity implements Serializable {
