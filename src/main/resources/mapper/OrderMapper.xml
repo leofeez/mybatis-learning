@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mybatis.mapper.OrderMapper">
+<mapper namespace="com.mybatis.OrderMapper">
 
     <resultMap id="OrderMap" type="com.pojo.Order">
-        <id column="order_id" property="orderId"/>
+        <id column="order_id" property="orderId" javaType="integer" jdbcType="INTEGER"/>
         <result column="order_code" property="orderCode"/>
         <result column="create_date" property="createTime"/>
     </resultMap>
@@ -27,14 +27,22 @@
         </where>
     </select>
 
-    <select id="findByPrimaryKey" resultType="com.pojo.Order" parameterType="integer">
+    <!-- 在maybatis的配置文件中已经指定了typeAlias，所以这里的resultType只需要直接写类名即可-->
+    <select id="findByPrimaryKey" resultType="Order" parameterType="integer">
         select
         <include refid="Base_Column_List"/>
         from learning.`order` u
         where order_id = #{orderId, jdbcType=INTEGER}
     </select>
 
-    <insert id="insert" parameterType="com.pojo.Order">
-        insert into learning.order(order_id, order_code, create_date) values()
+    <insert id="insertUseGeneratedKeys" parameterType="com.pojo.Order" keyProperty="orderId" useGeneratedKeys="true">
+        insert into learning.`order` (order_id, order_code, create_date) values(#{orderId}, #{orderCode}, #{createTime})
+    </insert>
+
+    <insert id="insertBySelectKey" parameterType="com.pojo.Order">
+        <selectKey keyProperty="orderId" keyColumn="order_id" order="BEFORE">
+            select LAST_INSERT_ID();
+        </selectKey>
+        insert into learning.`order` (order_id, order_code, create_date) values(#{orderId}, #{orderCode}, #{createTime})
     </insert>
 </mapper>

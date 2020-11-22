@@ -1,4 +1,4 @@
-import com.mybatis.mapper.OrderMapper;
+import com.mybatis.OrderMapper;
 import com.mybatis.mapper.RoleMapper;
 import com.mybatis.mapper.UserMapper;
 import com.pojo.Order;
@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MyBatisMapperTest {
@@ -22,6 +23,36 @@ public class MyBatisMapperTest {
     public void init() throws IOException {
         SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
         sqlSessionFactory = builder.build(Resources.getResourceAsStream("mybatis.xml"));
+    }
+
+    @Test
+    public void getOrder() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = mapper.findByPrimaryKey(1);
+        System.out.println("order = " + order.toString());
+    }
+
+    @Test
+    public void insertUseGeneratedKeys() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = new Order();
+        order.setOrderCode("202011222300");
+        order.setCreateTime(LocalDateTime.now());
+        mapper.insertUseGeneratedKeys(order);
+        System.out.println("order = " + order.getOrderId());
+    }
+
+    @Test
+    public void insertBySelectKey() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = new Order();
+        order.setOrderCode("202011222301");
+        order.setCreateTime(LocalDateTime.now());
+        mapper.insertUseGeneratedKeys(order);
+        System.out.println("order = " + order.getOrderId());
     }
 
     @Test
