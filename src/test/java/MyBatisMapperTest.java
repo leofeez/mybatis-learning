@@ -41,6 +41,7 @@ public class MyBatisMapperTest {
         order.setOrderCode("202011222300");
         order.setCreateTime(LocalDateTime.now());
         mapper.insertUseGeneratedKeys(order);
+        sqlSession.commit();
         System.out.println("order = " + order.getOrderId());
     }
 
@@ -52,6 +53,7 @@ public class MyBatisMapperTest {
         order.setOrderCode("202011222301");
         order.setCreateTime(LocalDateTime.now());
         mapper.insertUseGeneratedKeys(order);
+        sqlSession.commit();
         System.out.println("order = " + order.getOrderId());
     }
 
