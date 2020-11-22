@@ -39,13 +39,13 @@
     <mappers>
 
         <!-- 指定 mapper xml -->
-        <mapper resource="mapper/OrderMapper.xml"/>
+<!--        <mapper resource="mapper/OrderMapper.xml"/>-->
 
         <!-- 指定mapper接口-->
-        <mapper class="com.mybatis.mapper.UserMapper"/>
+<!--        <mapper class="com.mybatis.mapper.UserMapper"/>-->
 
-        <!-- 可以指定包路径
-        <package name="com.mybatis.mapper"/>-->
+        <!-- 可以指定包路径-->
+        <package name="com.mybatis.mapper"/>
     </mappers>
 
 

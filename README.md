@@ -1,39 +1,77 @@
-# MyBatis
+# mybatis-learning
+mybatis 是一个 `ORM（Object Relation Mapping`框架
 
-#### 介绍
-{**以下是码云平台说明，您可以替换此简介**
-码云是开源中国推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+###1. 原生jdbc操作数据库
+- 加载数据库驱动
+```java
+    Class.forName("com.mysql.cj.jdbc.Driver");
+```
 
-#### 软件架构
-软件架构说明
+- 获取数据库连接
+```java
+    Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+```
 
+- 预编译sql，查询，解析结果，关闭数据库连接
+```java
+    PreparedStatement preparedStatement = null;
+    try {
+        // 预编译sql
+        String sql = "select * from `learning`.order where order_code = ?;";
+        preparedStatement = connection.prepareStatement(sql);
+        
+        // 设置参数
+        preparedStatement.setString(1, "1");
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-#### 安装教程
+        // 解析结果集
+        while (resultSet.next()) {
+            Order order = new Order();
+            String orderCode = resultSet.getString("order_code");
+            order.setOrderCode(orderCode);
+            order.setOrderId(resultSet.getInt("order_id"));
+            order.setCreateTime(LocalDateTime.ofInstant(new Date(resultSet.getDate("create_time").getTime()).toInstant(), ZoneId.systemDefault()));
+            orderList.add(order);
+        }
+        
+        // 关闭连接
+        preparedStatement.close();
 
-1. xxxx
-2. xxxx
-3. xxxx
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-#### 使用说明
+    try {
+        connection.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return orderList;
+```
 
-1. xxxx
-2. xxxx
-3. xxxx
+###2. 快速开始
 
-#### 参与贡献
+###3. 技术解析
 
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
-
-
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+- ResultMap
+如果 ResultMap指定的映射对象没有声明无参构造，则需要在mapper.xml的ResultMap中指定对应的构造方法
+```xml
+    <resultMap id="BaseResultMap" type="com.pojo.Role">
+        <!-- 需要和映射的实体对象构造方法参数一致-->
+        <constructor>
+            <arg column="role_name" javaType="string"/>
+        </constructor>
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+```
+- 

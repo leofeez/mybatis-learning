@@ -21,12 +21,15 @@ public class OrderDao {
 
         PreparedStatement preparedStatement = null;
         try {
+            // 预编译sql
             String sql = "select * from `learning`.order where order_code = ?;";
             preparedStatement = connection.prepareStatement(sql);
 
+            // 设置参数
             preparedStatement.setString(1, "1");
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            // 解析结果集
             while (resultSet.next()) {
                 Order order = new Order();
                 String orderCode = resultSet.getString("order_code");
@@ -36,6 +39,7 @@ public class OrderDao {
                 orderList.add(order);
             }
 
+            // 关闭连接
             preparedStatement.close();
 
         } catch (SQLException e) {

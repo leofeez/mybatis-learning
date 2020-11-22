@@ -1,6 +1,8 @@
 import com.mybatis.mapper.OrderMapper;
+import com.mybatis.mapper.RoleMapper;
 import com.mybatis.mapper.UserMapper;
 import com.pojo.Order;
+import com.pojo.Role;
 import com.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -41,6 +43,18 @@ public class MyBatisMapperTest {
         for (User user : users) {
             System.out.println(user.toString());
         }
+        sqlSession.close();
+    }
+
+    /**
+     * 如果{@code ResultMap} 对应的实体没有无参构造，则必须指定 {@code constructor}
+     */
+    @Test
+    public void queryRole() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        RoleMapper mapper = sqlSession.getMapper(RoleMapper.class);
+        Role role = mapper.selectByPrimaryKey(1);
+        System.out.println("role = " + role);
         sqlSession.close();
     }
 }
