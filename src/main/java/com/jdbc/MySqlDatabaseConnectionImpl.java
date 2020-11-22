@@ -8,11 +8,11 @@ public class MySqlDatabaseConnectionImpl implements DatabaseConnection {
 
     private static final Object LOCK = new Object();
 
-    private static final String url = "jdbc:mysql://localhost:3306/learning?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3306/learning?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false&serverTimezone=UTC";
 
-    private static final String username = "root";
+    private static final String USERNAME = "root";
 
-    private static final String password = "admin123";
+    private static final String PASSWORD = "admin123";
 
     private Connection connection;
 
@@ -24,6 +24,7 @@ public class MySqlDatabaseConnectionImpl implements DatabaseConnection {
         }
     }
 
+    @Override
     public Connection getConnection() {
         if (connection == null) {
             synchronized (LOCK) {
@@ -35,6 +36,7 @@ public class MySqlDatabaseConnectionImpl implements DatabaseConnection {
         return connection;
     }
 
+    @Override
     public void close() {
         if (connection != null) {
             try {
@@ -47,7 +49,7 @@ public class MySqlDatabaseConnectionImpl implements DatabaseConnection {
 
     private Connection buildConnection() {
         try {
-            return DriverManager.getConnection(url, username, password);
+            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

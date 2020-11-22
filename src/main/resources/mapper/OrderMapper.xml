@@ -3,19 +3,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mybatis.mapper.OrderMapper">
-    <select id="query" resultType="com.pojo.Order" parameterType="com.pojo.Order">
-        select * from `learning`.order o
 
+    <resultMap id="OrderMap" type="com.pojo.Order">
+        <id column="order_id" property="orderId"/>
+        <result column="order_code" property="orderCode"/>
+        <result column="create_date" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        order_id as "orderId",
+        order_code as "orderCode",
+        create_date as "createTime"
+    </sql>
+
+    <select id="query" resultMap="OrderMap" parameterType="com.pojo.Order">
+        select
+        <include refid="Base_Column_List"/>
+        from `learning`.order o
         <where>
             <if test="orderId != null and orderId !=''">
-                o.order_id = #{orderId, jdbcType=INTEGER}
+                AND o.order_id = #{orderId, jdbcType=INTEGER}
             </if>
         </where>
     </select>
 
     <select id="findByPrimaryKey" resultType="com.pojo.Order" parameterType="integer">
-        select *
+        select
+        <include refid="Base_Column_List"/>
         from learning.`order` u
         where order_id = #{orderId, jdbcType=INTEGER}
     </select>
+
+    <insert id="insert" parameterType="com.pojo.Order">
+        insert into learning.order(order_id, order_code, create_date) values()
+    </insert>
 </mapper>

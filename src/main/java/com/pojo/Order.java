@@ -1,7 +1,10 @@
 package com.pojo;
 
+import lombok.ToString;
+
 import java.time.LocalDateTime;
 
+@ToString
 public class Order {
 
     private Integer orderId;
