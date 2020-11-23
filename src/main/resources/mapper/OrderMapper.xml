@@ -11,9 +11,9 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        order_id as "orderId",
-        order_code as "orderCode",
-        create_date as "createTime"
+        order_id,
+        order_code,
+        create_date
     </sql>
 
     <select id="query" resultMap="OrderMap" parameterType="com.pojo.Order">
@@ -36,7 +36,8 @@
     </select>
 
     <insert id="insertUseGeneratedKeys" parameterType="com.pojo.Order" keyProperty="orderId" useGeneratedKeys="true">
-        insert into learning.`order` (order_id, order_code, create_date) values(#{orderId}, #{orderCode}, #{createTime})
+        insert into learning.`order` (order_id, order_code, create_date)
+        values (#{orderId}, #{orderCode}, #{createTime})
     </insert>
 
     <insert id="insertBySelectKey" parameterType="com.pojo.Order">

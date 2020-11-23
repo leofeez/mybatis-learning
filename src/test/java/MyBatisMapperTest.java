@@ -5,6 +5,7 @@ import com.pojo.Order;
 import com.pojo.Role;
 import com.pojo.User;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -13,6 +14,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyBatisMapperTest {
@@ -88,6 +90,21 @@ public class MyBatisMapperTest {
         RoleMapper mapper = sqlSession.getMapper(RoleMapper.class);
         Role role = mapper.selectByPrimaryKey(1);
         System.out.println("role = " + role);
+        sqlSession.close();
+    }
+
+    @Test
+    public void insertRoleBatch() {
+//        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        // 指定批量操作
+        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, true);
+        RoleMapper mapper = sqlSession.getMapper(RoleMapper.class);
+        Role role = new Role("程序员");
+        Role role2 = new Role("测试");
+        List<Role> roleList = new ArrayList<>();
+        roleList.add(role);
+        roleList.add(role2);
+        mapper.insertBatch(roleList);
         sqlSession.close();
     }
 }

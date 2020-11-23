@@ -27,6 +27,13 @@
         insert into t_role (role_name, create_time)
         values (#{roleName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
     </insert>
+    <insert id="insertBatch" keyColumn="role_id" keyProperty="roleId" parameterType="com.pojo.Role" useGeneratedKeys="true">
+        insert into t_role (role_name, create_time)
+        values
+        <foreach collection="list" separator="," item="role">
+            (#{role.roleName, jdbcType=VARCHAR}, #{role.createTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
     <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="com.pojo.Role"
             useGeneratedKeys="true">
         insert into t_role
