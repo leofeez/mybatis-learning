@@ -41,9 +41,26 @@
     </insert>
 
     <insert id="insertBySelectKey" parameterType="com.pojo.Order">
-        <selectKey keyProperty="orderId" keyColumn="order_id" order="BEFORE">
-            select LAST_INSERT_ID();
-        </selectKey>
+<!--        <selectKey keyProperty="orderId" keyColumn="order_id" order="BEFORE">-->
+<!--            select LAST_INSERT_ID();-->
+<!--        </selectKey>-->
         insert into learning.`order` (order_id, order_code, create_date) values(#{orderId}, #{orderCode}, #{createTime})
+    </insert>
+    <insert id="insertBatchGenerateKey" parameterType="com.pojo.Order" useGeneratedKeys="true" keyProperty="orderId">
+        insert into learning.`order` (order_id, order_code, create_date)
+        values
+           <foreach collection="list" separator="," item="order">
+            (#{order.orderId}, #{order.orderCode}, #{order.createTime})
+           </foreach>
+
+    </insert>
+
+    <insert id="insertBatch" parameterType="com.pojo.Order">
+        insert into learning.`order` (order_id, order_code, create_date)
+        values
+        <foreach collection="list" separator="," item="order">
+            (#{order.orderId}, #{order.orderCode}, #{order.createTime})
+        </foreach>
+
     </insert>
 </mapper>

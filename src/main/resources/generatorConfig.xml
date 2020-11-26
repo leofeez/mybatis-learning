@@ -8,7 +8,7 @@
 
 
     <!-- 加载数据库驱动 -->
-    <classPathEntry location="${class_path}"/>
+<!--    <classPathEntry location="${class_path}"/>-->
 
     <!-- context:生成一组对象的环境 
 			id:必选，上下文id，用于在生成错误时提示 
@@ -57,8 +57,12 @@
             targetPackage：生成的类要放的包，真实的包受enableSubPackages属性控制；
         	targetProject：目标项目，指定一个存在的目录下，生成的内容会放到指定目录中，如果目录不存在，MBG不会自动建目录
          -->
-        <sqlMapGenerator targetPackage="." targetProject="src/main/resources/mapper">
+<!--        <sqlMapGenerator targetPackage="." targetProject="src/main/resources/mapper">-->
+<!--        </sqlMapGenerator>-->
+
+        <sqlMapGenerator targetPackage="com.mybatis.mapper" targetProject="src/main/java">
         </sqlMapGenerator>
+
 
 
         <!-- 对于mybatis来说，即生成Mapper接口，注意，如果没有配置该元素，那么默认不会生成Mapper接口 
@@ -72,10 +76,14 @@
                              type="XMLMAPPER"/>
 
 
-        <!-- shema 数据库 tableName表明 -->
+        <!-- shema 数据库 tableName表明 example的开关
         <table schema="learning" tableName="t_user" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
+            <generatedKey column="user_id" sqlStatement="MySql"/>
+        </table>-->
+
+        <table schema="learning" tableName="t_role" domainObjectName="Role">
             <generatedKey column="user_id" sqlStatement="MySql"/>
         </table>
 

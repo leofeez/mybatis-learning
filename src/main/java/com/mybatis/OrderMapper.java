@@ -16,4 +16,8 @@ public interface OrderMapper {
     void insertUseGeneratedKeys(Order order);
 
     void insertBySelectKey(Order order);
+
+    void insertBatch(List<Order> orders);
+
+    void insertBatchGenerateKey(List<Order> orders);
 }
