@@ -16,7 +16,7 @@ public interface BaseDao<T> {
      * @param id 主键
      * @return record
      */
-    T findByPrimaryKey(Integer id);
+    T findByPrimaryKey(Object id);
 
     /**
      * 逻辑主键查询
@@ -40,5 +40,5 @@ public interface BaseDao<T> {
      *
      * @param id 主键ID
      */
-    void deleteByPrimaryKey(Integer id);
+    void deleteByPrimaryKey(Object id);
 }

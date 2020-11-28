@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
-
-    public UserDaoImpl(){
-        super.setNameSpace("com.leofee.pojo.User");
+    @Override
+    protected String nameSpace() {
+        return "com.leofee.pojo.User";
     }
 
 }
