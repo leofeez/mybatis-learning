@@ -28,7 +28,7 @@
 
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
-            <property name="suppressAllComments" value="false"/>
+            <property name="suppressAllComments" value="true"/>
             <!-- 阻止注释中包含时间戳 true：是 ： false:否 -->
             <property name="suppressDate" value="true"/>
             <!--  注释是否包含数据库表的注释信息  true：是 ： false:否 -->
@@ -83,8 +83,8 @@
             <generatedKey column="user_id" sqlStatement="MySql"/>
         </table>-->
 
-        <table schema="learning" tableName="t_role" domainObjectName="Role">
-            <generatedKey column="user_id" sqlStatement="MySql"/>
+        <table schema="learning" tableName="order_item" domainObjectName="OrderItem">
+            <generatedKey column="item_id" sqlStatement="MySql"/>
         </table>
 
 

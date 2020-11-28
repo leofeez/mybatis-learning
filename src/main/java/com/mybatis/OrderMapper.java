@@ -13,6 +13,10 @@ public interface OrderMapper {
 
     Order findByPrimaryKey(Integer orderId);
 
+    Order findUserOrderByPrimaryKey(Integer orderId);
+
+    Order findUserOrderByPrimaryKey2(Integer orderId);
+
     void insertUseGeneratedKeys(Order order);
 
     void insertBySelectKey(Order order);

@@ -3,6 +3,7 @@ import com.mybatis.mapper.RoleMapper;
 import com.mybatis.mapper.UserMapper;
 import com.pojo.Order;
 import com.pojo.Role;
+import com.pojo.RoleExample;
 import com.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.ExecutorType;
@@ -33,6 +34,23 @@ public class MyBatisMapperTest {
         OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
         Order order = mapper.findByPrimaryKey(1);
         System.out.println("order = " + order.toString());
+    }
+
+    @Test
+    public void findUserOrderByPrimaryKey() {
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = mapper.findUserOrderByPrimaryKey(1);
+        System.out.println("order = " + order.toString());
+    }
+
+    @Test
+    public void findUserOrderByPrimaryKey2() {
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = mapper.findUserOrderByPrimaryKey2(1);
+        System.out.println("order = " + order.toString());
+        System.out.println("user = " + order.getUser());
     }
 
     @Test
@@ -91,6 +109,18 @@ public class MyBatisMapperTest {
         Role role = mapper.selectByPrimaryKey(1);
         System.out.println("role = " + role);
         sqlSession.close();
+    }
+
+    @Test
+    public void queryRoleByExample() {
+        RoleExample roleExample = new RoleExample();
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        RoleMapper mapper = sqlSession.getMapper(RoleMapper.class);
+        roleExample.createCriteria().andRoleNameLike("系统%");
+        roleExample.setDistinct(true);
+        roleExample.setOrderByClause("role_id");
+        List<Role> roles = mapper.selectByExample(roleExample);
+        roles.forEach(System.out::println);
     }
 
     /**

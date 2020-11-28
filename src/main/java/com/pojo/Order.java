@@ -1,9 +1,11 @@
 package com.pojo;
 
+import lombok.Data;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+@Data
 @ToString
 public class Order {
 
@@ -13,27 +15,5 @@ public class Order {
 
     private LocalDateTime createTime;
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getOrderCode() {
-        return orderCode;
-    }
-
-    public void setOrderCode(String orderCode) {
-        this.orderCode = orderCode;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
+    private User user;
 }
