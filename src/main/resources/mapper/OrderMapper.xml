@@ -7,7 +7,7 @@
     <resultMap id="OrderMap" type="com.pojo.Order">
         <id column="order_id" property="orderId" javaType="integer" jdbcType="INTEGER"/>
         <result column="order_code" property="orderCode"/>
-        <result column="create_date" property="createTime"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <!-- association 一对一嵌套结果查询-->
@@ -32,7 +32,7 @@
     <sql id="Base_Column_List">
         order_id,
         order_code,
-        create_date
+        create_time
     </sql>
 
     <select id="query" resultMap="OrderMap" parameterType="com.pojo.Order">
@@ -57,7 +57,7 @@
     <select id="findUserOrderByPrimaryKey" resultMap="UserOrderMap" parameterType="integer">
         select o.order_id,
                o.order_code,
-               o.create_date,
+               o.create_time,
                u.user_id u_user_id,
                u.user_name u_user_name
         from learning.`order` o,
@@ -69,14 +69,14 @@
     <select id="findUserOrderByPrimaryKey2" resultMap="UserOrderMap2" parameterType="integer">
         select o.order_id,
                o.order_code,
-               o.create_date,
+               o.create_time,
                o.user_id
         from learning.`order` o
         where order_id = #{orderId, jdbcType=INTEGER}
     </select>
 
     <insert id="insertUseGeneratedKeys" parameterType="com.pojo.Order" keyProperty="orderId" useGeneratedKeys="true">
-        insert into learning.`order` (order_id, order_code, create_date)
+        insert into learning.`order` (order_id, order_code, create_time)
         values (#{orderId}, #{orderCode}, #{createTime})
     </insert>
 
@@ -84,10 +84,10 @@
         <!--        <selectKey keyProperty="orderId" keyColumn="order_id" order="BEFORE">-->
         <!--            select LAST_INSERT_ID();-->
         <!--        </selectKey>-->
-        insert into learning.`order` (order_id, order_code, create_date) values(#{orderId}, #{orderCode}, #{createTime})
+        insert into learning.`order` (order_id, order_code, create_time) values(#{orderId}, #{orderCode}, #{createTime})
     </insert>
     <insert id="insertBatchGenerateKey" parameterType="com.pojo.Order" useGeneratedKeys="true" keyProperty="orderId">
-        insert into learning.`order` (order_id, order_code, create_date)
+        insert into learning.`order` (order_id, order_code, create_time)
         values
         <foreach collection="list" separator="," item="order">
             (#{order.orderId}, #{order.orderCode}, #{order.createTime})
@@ -96,11 +96,35 @@
     </insert>
 
     <insert id="insertBatch" parameterType="com.pojo.Order">
-        insert into learning.`order` (order_id, order_code, create_date)
+        insert into learning.`order` (order_id, order_code, create_time)
         values
         <foreach collection="list" separator="," item="order">
             (#{order.orderId}, #{order.orderCode}, #{order.createTime})
         </foreach>
-
     </insert>
+
+    <select id="queryByOrderType" resultMap="OrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `learning`.order o
+        <where>
+            <if test="orderType != null">
+                and o.order_type = #{orderType}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByOrderTypeFlushCache" resultMap="OrderMap" flushCache="true">
+        select
+        <include refid="Base_Column_List"/>
+        from `learning`.order o
+        <where>
+            <if test="orderType != null">
+                and o.order_type = #{orderType}
+            </if>
+            <if test="userId != null">
+                and o.user_id = #{userId}
+            </if>
+        </where>
+    </select>
 </mapper>

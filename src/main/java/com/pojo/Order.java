@@ -13,7 +13,11 @@ public class Order {
 
     private String orderCode;
 
+    private String orderType;
+
     private LocalDateTime createTime;
+
+    private Integer userId;
 
     private User user;
 }

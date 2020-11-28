@@ -1,6 +1,7 @@
 package com.mybatis;
 
 import com.pojo.Order;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,6 +11,10 @@ import java.util.List;
 public interface OrderMapper {
 
     List<Order> query(Order condition);
+
+    List<Order> queryByOrderType(@Param("orderType")String orderType);
+
+    List<Order> queryByOrderTypeFlushCache(@Param("orderType")String orderType, @Param("userId")Integer userId);
 
     Order findByPrimaryKey(Integer orderId);
 

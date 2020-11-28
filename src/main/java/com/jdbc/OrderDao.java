@@ -14,7 +14,7 @@ import java.util.List;
 
 public class OrderDao {
 
-    public List<Order> queryAllOrder() {
+    public List<Order> queryOrderByOrderType(String orderType) {
         List<Order> orderList = new ArrayList<>();
 
         Connection connection = DatabaseConnectionFactory.getConnection(DatabaseType.MYSQL);
@@ -22,11 +22,11 @@ public class OrderDao {
         PreparedStatement preparedStatement = null;
         try {
             // 预编译sql
-            String sql = "select * from `learning`.order where order_code = ?;";
+            String sql = "select * from `learning`.order where order_type = ?;";
             preparedStatement = connection.prepareStatement(sql);
 
             // 设置参数
-            preparedStatement.setString(1, "1");
+            preparedStatement.setString(1, orderType);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // 解析结果集
@@ -36,6 +36,8 @@ public class OrderDao {
                 order.setOrderCode(orderCode);
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setCreateTime(LocalDateTime.ofInstant(new Date(resultSet.getDate("create_time").getTime()).toInstant(), ZoneId.systemDefault()));
+                order.setOrderType(resultSet.getString("order_type"));
+                order.setUserId(resultSet.getInt("user_id"));
                 orderList.add(order);
             }
 
