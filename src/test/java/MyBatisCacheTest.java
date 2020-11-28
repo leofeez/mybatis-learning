@@ -1,3 +1,4 @@
+import com.mybatis.OrderCacheMapper;
 import com.mybatis.OrderMapper;
 import com.pojo.Order;
 import org.apache.ibatis.session.SqlSession;
@@ -88,6 +89,32 @@ public class MyBatisCacheTest {
         List<Order> orderList2 = mapper.queryByOrderType("1");
         for (Order order2 : orderList2) {
             System.out.println(order2.toString());
+        }
+    }
+
+    /**
+     * mybatis 的二级缓存
+     *
+     * <li> 二级缓存存在于sqlSessionFactory的生命周期，可以理解为跨sqlSession的，
+     * 缓存是以namespace为单位，不同的namespace下的操作互不影响
+     * <li>开启二级缓存需要在mybatis.xml 中设置 cacheEnable = true，并且在对应的namespace的xml中需要增加<cache></cache>
+     * <li> 二级缓存容易产生脏读，不建议使用
+     */
+    @Test
+    public void queryOrderUseSqlSessionFactoryCache() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        OrderCacheMapper mapper = sqlSession.getMapper(OrderCacheMapper.class);
+
+        // 同一个sqlSession 第一次查询
+        List<Order> orderList = mapper.queryByOrderType("1");
+        for (Order order : orderList) {
+            System.out.println(order.toString());
+        }
+
+        // 同一个sqlSession 第二次查询会直接返回一级缓存中的数据
+        List<Order> orderList2 = mapper.queryByOrderType("1");
+        for (Order order : orderList2) {
+            System.out.println(order.toString());
         }
     }
 }

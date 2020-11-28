@@ -44,6 +44,7 @@
 
         <!-- 指定 mapper xml -->
         <mapper resource="mapper/OrderMapper.xml"/>
+        <mapper resource="mapper/OrderCacheMapper.xml"/>
 
         <!-- 指定mapper接口-->
 <!--        <mapper class="com.mybatis.mapper.UserMapper"/>-->

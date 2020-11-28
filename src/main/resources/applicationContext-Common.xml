@@ -29,10 +29,13 @@
 
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="spring-mybatis.xml"/>
-        <property name="mapperLocations" value="classpath*:com/mybatis/mapper/*.xml"/>
-        <property name="typeAliasesPackage" value="com.pojo"/>
+        <property name="mapperLocations" value="classpath*:com/spring/mapper/*.xml"/>
+        <property name="typeAliasesPackage" value="com.spring.entity"/>
     </bean>
 
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.spring.mapper"/>
+    </bean>
 
 
     <bean name="transactionManager"
