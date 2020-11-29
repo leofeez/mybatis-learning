@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class MySqlDatabaseConnectionImpl implements DatabaseConnection {
+public class MySqlDataSourceImpl implements DataSource {
 
     private static final Object LOCK = new Object();
 
@@ -29,7 +29,7 @@ public class MySqlDatabaseConnectionImpl implements DatabaseConnection {
         if (connection == null) {
             synchronized (LOCK) {
                 if (connection == null) {
-                    connection = buildConnection();
+                    connection = doGetConnection();
                 }
             }
         }
@@ -37,7 +37,7 @@ public class MySqlDatabaseConnectionImpl implements DatabaseConnection {
     }
 
     @Override
-    public void close() {
+    public void close(Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
@@ -47,7 +47,7 @@ public class MySqlDatabaseConnectionImpl implements DatabaseConnection {
         }
     }
 
-    private Connection buildConnection() {
+    private Connection doGetConnection() {
         try {
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException ex) {

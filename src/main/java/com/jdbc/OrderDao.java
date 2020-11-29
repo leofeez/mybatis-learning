@@ -17,7 +17,8 @@ public class OrderDao {
     public List<Order> queryOrderByOrderType(String orderType) {
         List<Order> orderList = new ArrayList<>();
 
-        Connection connection = DatabaseConnectionFactory.getConnection(DatabaseType.MYSQL);
+        DataSource dataSource = DataSourceFactory.getDataSource(DatabaseType.MYSQL);
+        Connection connection = dataSource.getConnection();
 
         PreparedStatement preparedStatement = null;
         try {
@@ -56,11 +57,7 @@ public class OrderDao {
             }
         }
 
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        dataSource.close(connection);
         return orderList;
     }
 }

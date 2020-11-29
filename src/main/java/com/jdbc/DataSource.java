@@ -2,10 +2,10 @@ package com.jdbc;
 
 import java.sql.Connection;
 
-public interface DatabaseConnection {
+public interface DataSource {
 
     Connection getConnection();
 
-    void close();
+    void close(Connection connection);
 
 }
