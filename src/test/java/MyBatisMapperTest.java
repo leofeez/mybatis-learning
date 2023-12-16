@@ -3,6 +3,7 @@ import com.mybatis.mapper.RoleMapper;
 import com.mybatis.mapper.UserMapper;
 import com.pojo.Order;
 import com.pojo.Role;
+import com.pojo.RoleExample;
 import com.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.ExecutorType;
@@ -33,6 +34,23 @@ public class MyBatisMapperTest {
         OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
         Order order = mapper.findByPrimaryKey(1);
         System.out.println("order = " + order.toString());
+    }
+
+    @Test
+    public void findUserOrderByPrimaryKey() {
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = mapper.findUserOrderByPrimaryKey(1);
+        System.out.println("order = " + order.toString());
+    }
+
+    @Test
+    public void findUserOrderByPrimaryKey2() {
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = mapper.findUserOrderByPrimaryKey2(1);
+        System.out.println("order = " + order.toString());
+        System.out.println("user = " + order.getUser());
     }
 
     @Test
@@ -94,17 +112,81 @@ public class MyBatisMapperTest {
     }
 
     @Test
-    public void insertRoleBatch() {
-//        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+    public void queryRoleByExample() {
+        RoleExample roleExample = new RoleExample();
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        RoleMapper mapper = sqlSession.getMapper(RoleMapper.class);
+        roleExample.createCriteria().andRoleNameLike("系统%");
+        roleExample.setDistinct(true);
+        roleExample.setOrderByClause("role_id");
+        List<Role> roles = mapper.selectByExample(roleExample);
+        roles.forEach(System.out::println);
+    }
+
+    /**
+     * 如果在xml中不指定userGenerateKey=true，则不会返回主键ID
+     */
+    @Test
+    public void insertOrderBatchWithoutGenerateKey() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        // 指定批量操作
+//        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, true);
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = new Order();
+        order.setOrderCode("2020111201");
+        order.setCreateTime(LocalDateTime.now());
+        Order order2 = new Order();
+        order2.setOrderCode("2020111202");
+        order2.setCreateTime(LocalDateTime.now());
+        List<Order> orderList = new ArrayList<>();
+        orderList.add(order);
+        orderList.add(order2);
+        mapper.insertBatch(orderList);
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    /**
+     * 在xml中指定useGenerateKey = true 则会返回主键ID
+     */
+    @Test
+    public void insertOrderBatchWithGenerateKey() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        // 指定批量操作
+//        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, true);
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = new Order();
+        order.setOrderCode("2020111201");
+        order.setCreateTime(LocalDateTime.now());
+        Order order2 = new Order();
+        order2.setOrderCode("2020111202");
+        order2.setCreateTime(LocalDateTime.now());
+        List<Order> orderList = new ArrayList<>();
+        orderList.add(order);
+        orderList.add(order2);
+        mapper.insertBatchGenerateKey(orderList);
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    /**
+     * 在xml中指定useGenerateKey = true 则会返回主键ID,
+     * ExecutorType.BATCH 时，只有在事务提交时才会返回主键ID
+     */
+    @Test
+    public void insertOrderBatch() {
         // 指定批量操作
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, true);
-        RoleMapper mapper = sqlSession.getMapper(RoleMapper.class);
-        Role role = new Role("程序员");
-        Role role2 = new Role("测试");
-        List<Role> roleList = new ArrayList<>();
-        roleList.add(role);
-        roleList.add(role2);
-        mapper.insertBatch(roleList);
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        Order order = new Order();
+        order.setOrderCode("2020111301");
+        order.setCreateTime(LocalDateTime.now());
+        mapper.insertUseGeneratedKeys(order);
+        Order order2 = new Order();
+        order2.setOrderCode("2020111302");
+        order2.setCreateTime(LocalDateTime.now());
+        mapper.insertUseGeneratedKeys(order2);
+        sqlSession.commit();
         sqlSession.close();
     }
 }

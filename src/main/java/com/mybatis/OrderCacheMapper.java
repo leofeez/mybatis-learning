@@ -8,13 +8,11 @@ import java.util.List;
 /**
  * @author leofee
  */
-public interface OrderMapper {
+public interface OrderCacheMapper {
 
     List<Order> query(Order condition);
 
     List<Order> queryByOrderType(@Param("orderType")String orderType);
-
-    List<Order> queryByOrderTypeFlushCache(@Param("orderType")String orderType, @Param("userId")Integer userId);
 
     Order findByPrimaryKey(Integer orderId);
 

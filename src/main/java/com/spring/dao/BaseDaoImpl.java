@@ -1,13 +1,9 @@
 package com.spring.dao;
 
 import com.exception.BaseException;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -15,29 +11,31 @@ import java.util.List;
  * @author leofee
  * @date 2019/1/11
  */
-@Component
-public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
+public abstract class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 
     /**
-     * 命名空间
+     * 指定命名空间
+     * @return 命名空间
      */
-    @Setter(AccessLevel.PROTECTED)
-    @Getter(AccessLevel.PROTECTED)
-    private String nameSpace;
+    protected abstract String nameSpace();
 
     @Autowired
+    @Override
     public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
         super.setSqlSessionFactory(sqlSessionFactory);
     }
 
-    public T findByPrimaryKey(Integer id) {
-        return getSqlSession().selectOne(nameSpace.concat(".findByPrimaryKey"), id);
+    @Override
+    public T findByPrimaryKey(Object id) {
+        return getSqlSession().selectOne(nameSpace().concat(".findByPrimaryKey"), id);
     }
 
+    @Override
     public List<T> findRecords(T param) {
-        return getSqlSession().selectList(nameSpace.concat(".findRecords"), param);
+        return getSqlSession().selectList(nameSpace().concat(".findRecords"), param);
     }
 
+    @Override
     public T loadEntity(T param) {
         List<T> records = findRecords(param);
 
@@ -52,7 +50,8 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
         return records.get(0);
     }
 
-    public void deleteByPrimaryKey(Integer id) {
-        getSqlSession().delete(nameSpace.concat(".deleteByPrimaryKey"), id);
+    @Override
+    public void deleteByPrimaryKey(Object id) {
+        getSqlSession().delete(nameSpace().concat(".deleteByPrimaryKey"), id);
     }
 }

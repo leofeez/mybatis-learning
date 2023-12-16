@@ -2,7 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mybatis.OrderMapper">
+<mapper namespace="com.mybatis.OrderCacheMapper">
+
+    <cache/>
 
     <resultMap id="OrderMap" type="com.pojo.Order">
         <id column="order_id" property="orderId" javaType="integer" jdbcType="INTEGER"/>
@@ -110,20 +112,6 @@
         <where>
             <if test="orderType != null">
                 and o.order_type = #{orderType}
-            </if>
-        </where>
-    </select>
-
-    <select id="queryByOrderTypeFlushCache" resultMap="OrderMap" flushCache="true">
-        select
-        <include refid="Base_Column_List"/>
-        from `learning`.order o
-        <where>
-            <if test="orderType != null">
-                and o.order_type = #{orderType}
-            </if>
-            <if test="userId != null">
-                and o.user_id = #{userId}
             </if>
         </where>
     </select>

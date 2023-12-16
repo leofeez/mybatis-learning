@@ -10,7 +10,7 @@ public class OrderDaoJdbcTest {
     @Test
     public void test() {
         OrderDao orderDao = new OrderDao();
-        List<Order> orders = orderDao.queryAllOrder();
+        List<Order> orders = orderDao.queryOrderByOrderType("1");
         System.out.println(Arrays.toString(orders.toArray()));
     }
 }

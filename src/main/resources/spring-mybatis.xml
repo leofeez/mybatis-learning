@@ -3,10 +3,6 @@
 
 <configuration>
 
-
-    <!-- 引入db配置-->
-    <properties resource="db.properties"/>
-
     <settings>
         <!--该配置影响所有映射器中配置的缓存的全局开关-->
         <setting name="cacheEnabled" value="true"/>
@@ -20,38 +16,5 @@
         <!-- 自动将数据库字段根据驼峰规则映射为实体属性-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
-
-    <typeAliases>
-        <package name="com.pojo"/>
-    </typeAliases>
-
-
-    <environments default="development">
-        <environment id="development">
-            <transactionManager type="JDBC"/>
-            <!-- 配置数据库连接信息 -->
-            <dataSource type="POOLED">
-                <property name="driver" value="${driver}"/>
-                <property name="url" value="${url}"/>
-                <property name="username" value="${username}"/>
-                <property name="password" value="${password}"/>
-            </dataSource>
-        </environment>
-    </environments>
-
-
-    <mappers>
-
-        <!-- 指定 mapper xml -->
-        <mapper resource="mapper/OrderMapper.xml"/>
-        <mapper resource="mapper/OrderCacheMapper.xml"/>
-
-        <!-- 指定mapper接口-->
-<!--        <mapper class="com.mybatis.mapper.UserMapper"/>-->
-
-        <!-- 可以指定包路径-->
-        <package name="com.mybatis.mapper"/>
-    </mappers>
-
 
 </configuration>
